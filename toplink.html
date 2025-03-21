@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toplink DCS - Document Clearing Services</title>
+    <style>
+        :root {
+            --primary: #e30613;
+            --primary-dark: #c00000;
+            --light: #ffffff;
+            --dark: #333333;
+            --light-gray: #f8f8f8;
+            --medium-gray: #eeeeee;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--light);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 60px;
+            margin-right: 15px;
+        }
+        
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 1px;
+        }
+        
+        .logo-subtext {
+            font-size: 1rem;
+            color: var(--dark);
+            font-weight: 500;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav li {
+            margin-left: 1.8rem;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+            padding-bottom: 5px;
+        }
+        
+        nav a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            left: 0;
+            bottom: 0;
+            transition: width 0.3s;
+        }
+        
+        nav a:hover {
+            color: var(--primary);
+        }
+        
+        nav a:hover:after {
+            width: 100%;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/api/placeholder/1200/600') center/cover no-repeat;
+            color: var(--light);
+            text-align: center;
+            padding: 7rem 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(227, 6, 19, 0.5), transparent);
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: fadeInDown 1s;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            animation: fadeInUp 1s;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: var(--light);
+            padding: 0.9rem 1.8rem;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: 2px solid var(--primary);
+            box-shadow: 0 4px 15px rgba(227, 6, 19, 0.3);
+        }
+        
+        .btn:hover {
+            background-color: transparent;
+            color: var(--light);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(227, 6, 19, 0.4);
+        }
+        
+        .services {
+            padding: 5rem 0;
+            background-color: var(--light-gray);
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background: var(--primary);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            color: var(--dark);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .service-card {
+            background-color: var(--light);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(227, 6, 19, 0.1);
+        }
+        
+        .service-card h3 {
+            background-color: var(--primary);
+            color: var(--light);
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.2rem;
+            margin: 0;
+        }
+        
+        .service-content {
+            padding: 1.5rem;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .service-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .about {
+            padding: 5rem 0;
+            background-color: var(--light);
+        }
+        
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-text p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .about-image {
+            flex: 1;
+            position: relative;
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        
+        .about-image:hover img {
+            transform: scale(1.03);
+        }
+        
+        .ceo-section {
+            padding: 5rem 0;
+            background-color: var(--light-gray);
+        }
+        
+        .ceo-content {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+        
+        .ceo-image {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .ceo-image img {
+            width: 80%;
+            max-width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        
+        .ceo-text {
+            flex: 1;
+        }
+        
+        .ceo-name {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .ceo-title {
+            font-size: 1.2rem;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+        
+        .contact {
+            padding: 5rem 0;
+            background-color: var(--light);
+        }
+        
+        .contact-content {
+            display: flex;
+            gap: 3rem;
+        }
+        
+        .contact-info, .contact-form {
+            flex: 1;
+        }
+        
+        .contact-info h3, .contact-form h3 {
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+        
+        .contact-info p {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .contact-info i {
+            color: var(--primary);
+            margin-right: 1rem;
+            font-size: 1.2rem;
+            width: 25px;
+        }
+        
+        .contact-form form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(227, 6, 19, 0.1);
+        }
+        
+    
+
+.social-icons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem; 
+    color: inherit; 
+    text-decoration: none;
+    transition: transform 0.3s;
+}
+
+/* Hover Effect */
+.social-icon:hover {
+    transform: translateY(-3px);
+}
+
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        footer {
+            background-color: var(--primary-dark);
+            color: var(--light);
+            text-align: center;
+            padding: 2rem 0;
+        }
+        
+        .footer-column h3 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .footer-column p, .footer-column a {
+            color: #aaa;
+            margin-bottom: 0.8rem;
+            display: block;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .footer-column a:hover {
+            color: var(--light);
+            transform: translateX(5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #444;
+        }
+        
+        .whatsapp-float {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #25d366;
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.8);
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: var(--light);
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+        
+        .close {
+            color: var(--dark);
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .modal img {
+            width: 100%;
+            border-radius: 5px;
+        }
+        
+        .modal-title {
+            text-align: center;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        @media (max-width: 992px) {
+            .about-content, .ceo-content, .contact-content {
+                flex-direction: column;
+            }
+            
+            .ceo-image img {
+                margin-bottom: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            nav li {
+                margin: 0.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .logo {
+                justify-content: center;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container nav-container">
+            <div class="logo">
+                <img src="images/TOP LINK.pdf.jpg" alt="Toplink DCS Logo">
+                <div>
+                    <div class="logo-text">Toplink</div>
+                    <div class="logo-subtext">Document Clearing Services</div>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#ceo">Leadership</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <section id="home" class="hero">
+        <div class="container hero-content">
+            <h1>Top Link DCS</h1>
+            <p>Your Trusted Partner for Fast and Reliable Visa & Document Clearing Services in the UAE.</p>
+            <a href="#contact" class="btn">Get in Touch</a>
+        </div>
+    </section>
+    
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">OUR SERVICES</h2>
+            <p class="section-subtitle">We offer comprehensive document clearing and business support services to help you navigate the UAE's regulatory requirements with ease.</p>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Local Sponsorship</h3>
+                    <div class="service-content">
+                        <i class="fas fa-handshake service-icon"></i>
+                        <p>Comprehensive local sponsorship services for your business needs.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h3>New Trade License</h3>
+                    <div class="service-content">
+                        <i class="fas fa-certificate service-icon"></i>
+                        <p>Complete assistance in obtaining new trade licenses.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h3>Tasheel & Immigration</h3>
+                    <div class="service-content">
+                        <i class="fas fa-passport service-icon"></i>
+                        <p>Expert assistance with Tasheel and immigration procedures.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h3>PRO Services</h3>
+                    <div class="service-content">
+                        <i class="fas fa-user-tie service-icon"></i>
+                        <p>Professional PRO services for all your government-related needs.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h3>Digital Marketing</h3>
+                    <div class="service-content">
+                        <i class="fas fa-bullhorn service-icon"></i>
+                        <p>Comprehensive digital marketing solutions for your business growth.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h3>Dewa Online Services</h3>
+                    <div class="service-content">
+                        <i class="fas fa-bolt service-icon"></i>
+                        <p>Simplified management of your DEWA utilities and payments.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h3>New Business Setup</h3>
+                    <div class="service-content">
+                        <i class="fas fa-store service-icon"></i>
+                        <p>Complete assistance in establishing your business in the UAE.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h3>Dubai Police Services</h3>
+                    <div class="service-content">
+                        <i class="fas fa-shield-alt service-icon"></i>
+                        <p>Efficient handling of all Dubai Police-related documentation.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h3>Economic Dept. Works</h3>
+                    <div class="service-content">
+                        <i class="fas fa-chart-line service-icon"></i>
+                        <p>Professional support for all Economic Department requirements.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h3>Ejari Services</h3>
+                    <div class="service-content">
+                        <i class="fas fa-home service-icon"></i>
+                        <p>Quick and reliable Ejari registration and renewal services.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h3>Certificate Attestation</h3>
+                    <div class="service-content">
+                        <i class="fas fa-stamp service-icon"></i>
+                        <p>Official document attestation for various purposes.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h3>Emirates ID Typing</h3>
+                    <div class="service-content">
+                        <i class="fas fa-id-card service-icon"></i>
+                        <p>Professional Emirates ID application and renewal typing services.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h3>VAT Registration</h3>
+                    <div class="service-content">
+                        <i class="fas fa-file-invoice-dollar service-icon"></i>
+                        <p>Seamless VAT registration and compliance support.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h3>Medical Services</h3>
+                    <div class="service-content">
+                        <i class="fas fa-heartbeat service-icon"></i>
+                        <p>Coordination of medical tests and health certificate services.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h3>Mulkiya Renewal</h3>
+                    <div class="service-content">
+                        <i class="fas fa-car service-icon"></i>
+                        <p>Efficient vehicle registration renewal services.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h3>Health Insurance</h3>
+                    <div class="service-content">
+                        <i class="fas fa-notes-medical service-icon"></i>
+                        <p>Comprehensive health insurance solutions for individuals and companies.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h3>RTA Online Services</h3>
+                    <div class="service-content">
+                        <i class="fas fa-road service-icon"></i>
+                        <p>All RTA-related services handled efficiently.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h3>Family Visa Typing</h3>
+                    <div class="service-content">
+                        <i class="fas fa-users service-icon"></i>
+                        <p>Professional family visa application typing and processing.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h3>Vehicle Insurance</h3>
+                    <div class="service-content">
+                        <i class="fas fa-car-crash service-icon"></i>
+                        <p>Comprehensive vehicle insurance solutions and assistance.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h3>Company Visa Typing</h3>
+                    <div class="service-content">
+                        <i class="fas fa-building service-icon"></i>
+                        <p>Expert company visa application and processing services.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h3>Visit Visa Arrangement</h3>
+                    <div class="service-content">
+                        <i class="fas fa-plane-arrival service-icon"></i>
+                        <p>Hassle-free visit visa applications and arrangements.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="typing-services" class="services">
+        <div class="container">
+            <h2 class="section-title">TYPING SERVICES AVAILABLE</h2>
+            <p class="section-subtitle">Our professional typing services ensure accurate and efficient processing of all your documentation needs.</p>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Document Typing</h3>
+                    <div class="service-content">
+                        <i class="fas fa-keyboard service-icon"></i>
+                        <p>Professional document typing for various requirements.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h3>Visa Applications</h3>
+                    <div class="service-content">
+                        <i class="fas fa-file-alt service-icon"></i>
+                        <p>Accurate and efficient visa application typing services.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h3>Legal Document Typing</h3>
+                    <div class="service-content">
+                        <i class="fas fa-gavel service-icon"></i>
+                        <p>Expert typing services for legal documents and contracts.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h3>Business Document Typing</h3>
+                    <div class="service-content">
+                        <i class="fas fa-briefcase service-icon"></i>
+                        <p>Professional typing for all business-related documents.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <a href="https://wa.me/971555060345" class="whatsapp-float" target="_blank">
+        <i class="fa fa-phone" style="color: white;"></i>
+    </a>
+    
+    
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">ABOUT US</h2>
+            <p class="section-subtitle">We simplify complex governmental procedures to save your valuable time and resources.</p>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Toplink Document Clearing Services (DCS) is a premier service provider in the UAE, specializing in visa processing, document clearance, and business setup services. With our team of experienced professionals, we ensure fast, accurate, and reliable services for all your documentation needs.</p>
+                    <p>Our mission is to simplify complex bureaucratic processes for our clients, saving them time and effort while ensuring compliance with all UAE regulations. We pride ourselves on our attention to detail, personalized service, and commitment to customer satisfaction.</p>
+                    <p>Based in Dubai, we serve clients throughout the UAE with efficient and cost-effective solutions. Whether you need assistance with visa applications, business setup, document attestation, or any other administrative requirement, Toplink DCS is your reliable partner.</p>
+                </div>
+                <div class="about-image">
+                    <img src="images/office.jpg" alt="Toplink DCS Office">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="ceo" class="ceo-section">
+        <div class="container">
+            <h2 class="section-title">LEADERSHIP</h2>
+            <p class="section-subtitle">Meet the visionary leader behind Toplink DCS</p>
+            <div class="ceo-content">
+                <div class="ceo-image">
+                    <img src="images/C.E.O.png" alt="CEO of Toplink DCS">
+                </div>
+                <div class="ceo-text">
+                    <h3 class="ceo-name">Mian Asfan</h3>
+                    <p class="ceo-title">Chief Executive Officer</p>
+                    <p>Under the visionary leadership of Mian Asfan, Toplink Document Clearing Services has established itself as a trusted name in the UAE's document clearing and business services sector.</p>
+                    <p>With extensive experience in navigating the complex regulatory landscape of the UAE, Mian Asfan has built a company that prioritizes efficiency, reliability, and customer satisfaction above all else.</p>
+                    <p>His commitment to excellence and deep understanding of UAE business regulations ensures that every client receives the highest quality service tailored to their specific needs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">CONTACT US</h2>
+            <p class="section-subtitle">Get in touch with us for all your document clearing and business service needs</p>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Our Information</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Office No.112 Abdullah Building, Derra, Dubai-U.A.E</p>
+
+<p><i class="fas fa-phone"></i> +971 55 506 0345</p>
+
+<p><i class="fas fa-envelope"></i> <a href="mailto:Toplinkdcs@gmail.com">Toplinkdcs@gmail.com</a></p>
+<p><i class="fas fa-envelope"></i> <a href="mailto:info@toplinkdcs.ae">info@toplinkdcs.ae</a></p>
+<p><i class="fas fa-envelope"></i> <a href="mailto:Hamza@toplinkdcs.ae">Hamza@toplinkdcs.ae</a></p>
+<p><i class="fas fa-envelope"></i> <a href="mailto:Faisal@toplinkdcs.ae">Faisal@toplinkdcs.ae</a></p>
+
+                    
+                    <h3>Follow Us</h3>
+                    <div class="social-icons">
+                        <a href="https://www.facebook.com/share/1EGdeiwbR5/" target="_blank" class="social-icon">
+                            <i class="fab fa-facebook-f" style="color: #1877F2;"></i>
+                        </a>
+                        <a href="https://www.instagram.com/toplink_dcs?igsh=dmc1cXA3bnphaXkz" target="_blank" class="social-icon">
+                            <i class="fab fa-instagram" style="color: #C13584;"></i>
+                        </a>
+                        <a href="https://wa.me/971555060345" target="_blank" class="social-icon">
+                            <i class="fab fa-whatsapp" style="color: #25D366;"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@toplink237?_t=ZS-8uechwqegzQ&_r=1" target="_blank" class="social-icon">
+                            <i class="fab fa-tiktok" style="color: #000000;"></i>
+                        </a>
+                    </div>
+                    
+                    
+                </div>
+                <div class="contact-form">
+                    <h3>Send Us a Message</h3>
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="Phone Number" id="Phone Number" name="Phone Number" required>
+                        </div>
+                    </section>
+    
+                    <footer>
+                        <div class="container">
+                            <p>&copy; 2025 Toplink Document Clearing Services. All Rights Reserved.</p>
+                        </div>
+                    </footer>
+                </body>
+                </html>      
